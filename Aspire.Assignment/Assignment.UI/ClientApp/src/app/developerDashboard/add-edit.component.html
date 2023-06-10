@@ -1,0 +1,66 @@
+<div class="container"><h1>{{title}}</h1>
+
+<form *ngIf="!loading" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Name input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="name">Name</label>
+        <input title="Name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">Username is required</div>
+        </div>
+    </div>
+  
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <label class="form-label" for="description">Description</label>
+        <textarea title="Description" formControlName="description" class="form-control" rows="4" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"  > </textarea>
+        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+            <div *ngIf="f.description.errors.required">Description is required</div>
+        </div>
+    </div>
+    <div class="form-outline mb-4">
+         <label class="form-label">Price</label>
+            <input title="Price" type="text" formControlName="price" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" />
+            <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                <div *ngIf="f.price.errors.required">Price is required</div>
+            </div>
+            <span style="color:red" *ngIf="(
+                form.get('price')!.hasError('pattern') &&
+                form.get('price')!.touched)">Price is not valid.</span>
+    </div>
+
+    <div  class="form-outline mb-4">
+        <label class="form-label">Type</label>
+        <input title="Type" type="text" formControlName="type" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.type.errors }" />
+        <div *ngIf="submitted && f.type.errors" class="invalid-feedback">
+            <div *ngIf="f.type.errors.required">Type is required</div>
+        </div>
+    </div>
+    <div  class="form-outline mb-4">
+        <label class="form-label" for="customFile">Upload a application</label>
+        <input title="Files" type="file" formControlName="files"  accept=".zip" class="form-control" (change)="onSelectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.files.errors }" />
+        <div *ngIf="submitted && f.files.errors" class="invalid-feedback">
+            <div *ngIf="f.files.errors.required">Files is required</div>
+        </div>
+
+        {{fileName || "No file uploaded yet."}}
+
+
+        <!-- <input type="file" class="form-control" id="customFile"  formControlName="files" (change)="onSelectFile($event)" />
+        <div *ngIf="submitted && f.files.errors" class="invalid-feedback">
+            <div *ngIf="f.files.errors.required">files is required</div>
+        </div> -->
+    </div>
+  
+    
+    <!-- Submit button -->
+    <button type="submit" [disabled]="submitting" class="btn btn-primary">
+        <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1 "></span>
+        Save
+    </button>
+    <a routerLink="/devDash/appsdetails" class="btn btn-link">Cancel</a>
+  </form>
+  <div *ngIf="loading" class="text-center m-5">
+    <span class="spinner-border spinner-border-lg align-center"></span>
+</div>
+</div>

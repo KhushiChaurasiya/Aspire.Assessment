@@ -1,0 +1,41 @@
+
+<div class="container">
+    <div><br></div>
+<form class="wrap">
+    <div class="search"> Search App Name : 
+      <input class="searchTerm" type="text" name="searchTerm" 
+        placeholder="Filter by app name"
+        [(ngModel)]="searchTerm" (input)="search(searchTerm)" />
+    </div>
+  </form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Type</th>
+            <th>Files</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of apps | searchFilter: searchTerm; index as i">
+            <td>{{user.name}}</td>
+            <td>{{user.description}}</td>
+            <td>{{user.price}}</td>
+            <td>{{user.type}}</td>
+            <td>{{user.files}}</td>
+            <td>
+                <button class="btn btn-sm btn-success mb-2" (click)="download(user)"><i class="bi bi-download"></i></button>
+            </td>
+          
+        </tr>
+        <tr *ngIf="!apps">
+            <td colspan="4" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

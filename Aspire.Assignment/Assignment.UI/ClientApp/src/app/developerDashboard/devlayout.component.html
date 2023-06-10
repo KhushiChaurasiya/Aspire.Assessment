@@ -1,0 +1,36 @@
+<!-- <nav class="navbar navbar-expand navbar-dark bg-dark px-3">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a class="nav-item nav-link" routerLink="/apps" routerLinkActive="active">Apps</a>
+        <a class="nav-item nav-link" routerLink="/userList" routerLinkActive="active">Users</a>
+        <a class="nav-item nav-link" routerLink="/role" routerLinkActive="active">Role</a>
+        <button class="btn btn-link nav-item nav-link" (click)="logout()">Logout</button>
+    </div>
+</nav> -->
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Play Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-item nav-link" routerLink="/devDash/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item nav-link" routerLink="/devDash/appsdetails" routerLinkActive="active">Apps</a>
+          </li>
+         
+          <li>
+            <button class="btn btn-link nav-item nav-link" (click)="logout()"> Logout</button>
+        <!-- <div style="color: white;">{{userDetails?.userName}}</div> -->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<div class="app-container">
+    <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,30 @@
+<div class="container">
+    <div><br/><h5>Registered Users</h5><hr></div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th >Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let u of user">
+            <td>{{u.id}}</td>
+            <td>{{u.firstname}}</td>
+            <td>{{u.lastname}}</td>
+            <td>{{u.username}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.address}}</td>
+        </tr>
+        <tr *ngIf="!user">
+            <td colspan="2" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

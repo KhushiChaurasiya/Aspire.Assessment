@@ -1,0 +1,23 @@
+<div class="container">
+    <div><br/></div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th >Id</th>
+            <th >Rolename</th>
+            <!-- <th >Password</th> -->
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let u of role">
+            <td>{{u.id}}</td>
+            <td>{{u.rolename}}</td>
+        </tr>
+        <tr *ngIf="!role">
+            <td colspan="2" class="text-center">
+                <span class="spinner-border spinner-border-lg align-center"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

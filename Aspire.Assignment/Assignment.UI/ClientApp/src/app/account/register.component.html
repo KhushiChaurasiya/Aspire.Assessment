@@ -1,0 +1,129 @@
+﻿
+<!-- Pills navs -->
+<!-- <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link active"
+      id="tab-login"
+      data-mdb-toggle="pill"
+      href="#pills-login"
+      role="tab"
+      aria-controls="pills-login"
+      aria-selected="true"
+      >Login</a
+    >
+  </li>
+  <li class="nav-item" role="presentation">
+    <a
+      class="nav-link"
+      id="tab-register"
+      data-mdb-toggle="pill"
+      href="#pills-register"
+      role="tab"
+      aria-controls="pills-register"
+      aria-selected="false"
+      >Register</a
+    >
+  </li>
+</ul> -->
+<!-- Pills navs -->
+
+<!-- Pills content -->
+
+<div class="card">
+  <h4 class="card-header">Registration</h4>
+  
+  
+  <div class="card-body">
+<div class="tab-content">
+  
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- <div class="text-center mb-3">
+        <p>Sign up with:</p>
+       
+
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+          <i class="fab fa-google"></i>
+        </button>
+
+      </div>
+
+      <p class="text-center">or:</p> -->
+
+      <!-- Name input -->
+      <div class="form-outline mb-4">
+        <label class="form-label">Firstname</label>
+        <input title="Firstname" type="text" formControlName="firstname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" />
+        <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+            <div *ngIf="f.firstname.errors.required">Firstname is required</div>
+        </div>
+      </div>
+
+      <!-- Username input -->
+      <div class="form-outline mb-4">
+        <label class="form-label">Lastname</label>
+        <input title="Lastname" type="text" formControlName="lastname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" />
+        <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+            <div *ngIf="f.lastname.errors.required">Lastname is required</div>
+        </div>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label">Username</label>
+        <input title="Username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+      </div>
+
+    <div class="form-outline mb-4">
+        <label class="form-label">Email</label>
+        <input title="Email" type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Email is required</div>
+        </div>
+    </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label">Password</label>
+        <input title="Password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+      </div>
+
+      <!-- Repeat Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label">Address</label>
+        <input title="Address" type="test" formControlName="address" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
+        <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+            <div *ngIf="f.address.errors.required">Address is required</div>
+           
+        </div>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label for="roleId">Role:</label>
+            <div>
+              <input id="developer" type="radio" value="Developer" name="role" formControlName="role" (change)="changeRole($event)">
+              <label for="developer"> Developer </label> 
+              <span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <input id="user" type="radio" value="User" name="role" formControlName="role" (change)="changeRole($event)">
+              <label for="user"> User</label>
+           </div>
+      </div>
+
+      <!-- Submit button -->
+
+      <button type="submit" title="registerBtn" [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+        Sign up
+    </button>
+    <a routerLink="../login" class="btn btn-link">Cancel</a>
+    </form>
+  </div>
+</div>
+<!-- Pills content -->

@@ -1,0 +1,81 @@
+﻿
+<div class="card">
+  <h4 class="card-header">Login</h4>
+ 
+  <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input title="Username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required">Username is required</div>
+              </div>
+          </div>
+          <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input title="Password" type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+              </div>
+          </div>
+          <div>
+              <button type="submit" [disabled]="loading" class="btn btn-primary">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                  Login
+              </button>
+              <a routerLink="../register" class="btn btn-link">Register</a>
+          </div>
+
+         
+      </form>
+      <div>
+        <hr>
+        <div class="divider d-flex align-items-center my-4" style="justify-content: center;">
+          <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+        </div>
+      <div class="divider d-flex align-items-center my-4" style="justify-content: center;">
+          <button class="btn btn-info" type="button" (click)="externalLogin()"><i class="fa fa-google me-2"></i> Continue with Google</button>
+      </div>
+        
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="text-center mb-3">
+        <p>Sign in with:</p>
+
+       
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+            <i class="fab fa-google"></i>
+          <a (click)="signInWithGoogle()" class="nav-link">  </a>
+        </button>
+        
+      </div>
+
+      <p class="text-center">or:</p>
+      <div class="form-outline mb-4">
+        <label class="form-label">Username</label>
+        <input title="Username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+        </div>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label">Password</label>
+                <input title="Password" type="text" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                </div>
+      </div>
+
+      <button type="submit" [disabled]="loading" class="btn btn-primary btn-block mb-4">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+        Sign in
+    </button>
+      <div class="text-center">
+        <p>Not a member? <a routerLink="../register">Register</a></p>
+      </div>
+    </form>
+  </div> -->

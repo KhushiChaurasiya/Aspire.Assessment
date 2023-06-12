@@ -29,8 +29,6 @@ export class ListComponent implements OnInit {
       this.userService.getAll()
          // .pipe(first())
           .subscribe(apps => this.apps = apps);
-
-          console.log(this.apps);
   }
 
 }

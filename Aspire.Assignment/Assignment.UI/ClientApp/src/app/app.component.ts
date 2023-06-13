@@ -9,7 +9,6 @@ export class AppComponent {
     role : any;
     userDetails: TokenResponse | null;
     constructor(private accountService: AccountService) {
-        debugger;
         this.userDetails = this.accountService.userValue;
         this.accountService.user.subscribe(x => this.user = x);
         if(localStorage.user != null){

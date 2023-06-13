@@ -247,20 +247,27 @@ namespace Assignment.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         [Route("DownloadedReport")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DownloadedReport()
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DownloadedReport(Dictionary<string, string>[] datefilterdata)
         {
             try
             {
+                if (datefilterdata.Length > 0)
+                {
+                    foreach (var datefilter in datefilterdata)
+                    {
+                        var FromDate = datefilter.Values;
+                    }
+                }
                 var query = new GetDownloadedReportDetailsQuery();
                 var response = await _mediator.Send(query);
                 return Ok(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError("Getting error when see the downloaded report: {ex}", ex);
 

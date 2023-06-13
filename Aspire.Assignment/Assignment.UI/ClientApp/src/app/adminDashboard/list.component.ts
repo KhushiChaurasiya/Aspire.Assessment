@@ -15,7 +15,6 @@ export class ListComponent implements OnInit {
       this.GetAllApps();
   }
   delete(id: number) {  
-      debugger;
       var ans = confirm("Do you want to delete app with Id: " + id);  
       if (ans) {  
           this.userService.delete(id).subscribe((data) => {  

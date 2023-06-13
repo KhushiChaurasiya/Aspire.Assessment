@@ -5,6 +5,7 @@ import { UserService } from '../_services/user.service';
 import { AppDownloaded } from '../_models/appdownloaded';
 import { ChartOptions, ChartType, ChartDataset, Chart } from 'chart.js';
 import { Logs } from '../_models/logs';
+import { AlertService } from '../_services/alert.service';
 
 
 @Component({ templateUrl: 'home.component.html' })
@@ -15,31 +16,37 @@ export class HomeComponent  implements AfterViewInit{
     ctx: any;
     totalUser : any;
     totalLogReport : Logs[];
+    model:any;
+    FromDate : string;
+    ToDate : string;
+    bindDateFilter : any[] = [];
 
   @ViewChild('pieCanvas') pieCanvas!: { nativeElement: any };
 
   pieChart: any;
 
-  constructor(private accountService: AccountService, private userService : UserService) {
+  constructor(private accountService: AccountService, private userService : UserService, private alertService : AlertService) {
     this.user = this.accountService.userValue;
 }
 
   ngAfterViewInit(): void {
-    debugger;
-    this.userService.getDownloadedReport().subscribe(data=>{
-                    this.appDownloaded = data;
-                    this.pieChartBrowser(data);
-                    });
-
-    this.userService.getAllUserCountReport().subscribe(res =>{
-      this.totalUser = res;
-    });
-
-    this.userService.getAllLogReport().subscribe(res=>{
-      this.totalLogReport = res;
-      console.log(this.totalLogReport);
-    })
+    this.getAppDownloadedChartReport();
+    this.getLogAndUserCountReport();
     
+  }
+
+  SelectedFromDate(event :any)
+  {
+    this.FromDate = event.target.value;
+    this.bindDateFilter.push({ key: "FromDate", value: this.FromDate });
+    this.getAppDownloadedChartReport()
+  }
+  SelectedToDate(event :any)
+  {
+    this.ToDate = event.target.value;
+    // this.bindDateFilter.push({"ToDate":this.ToDate});
+    this.bindDateFilter.push({ key: "ToDate", value: this.ToDate });
+    this.getAppDownloadedChartReport();
   }
   
   getAppName(data:[]){
@@ -83,17 +90,29 @@ export class HomeComponent  implements AfterViewInit{
       },
     });
   }
+
+  getAppDownloadedChartReport()
+  {
+    this.userService.getDownloadedReport(this.bindDateFilter)
+    .subscribe({
+      next:(data) => {
+        this.pieChartBrowser(data);
+      },
+      error: (error: any) => {
+        this.alertService.error(error);
+    }
+    });
+  }
+  getLogAndUserCountReport()
+  {
+    
+this.userService.getAllUserCountReport().subscribe(res =>{
+  this.totalUser = res;
+  });
+  
+  this.userService.getAllLogReport().subscribe(res=>{
+  this.totalLogReport = res;
+  console.log(this.totalLogReport);
+  });
+  }
 }
-
-// constructor(private accountService: AccountService, private userService : UserService) {
-//     this.user = this.accountService.userValue;
-// }
-//     ngOnInit() {
-//         debugger;
-//             this.userService.getDownloadedReport().subscribe(data=>{
-//             this.appDownloaded = data;
-//             });
-//     }
-
-
-// }

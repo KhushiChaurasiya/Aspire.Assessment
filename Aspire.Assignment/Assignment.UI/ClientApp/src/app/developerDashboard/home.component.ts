@@ -79,10 +79,9 @@ constructor(private accountService: AccountService, private userService : UserSe
     this.user = this.accountService.userValue;
 }
     ngOnInit() {
-        debugger;
-            this.userService.getDownloadedReport().subscribe(data=>{
-            this.appDownloaded = data;
-            });
+        //     this.userService.getDownloadedReport().subscribe(data=>{
+        //     this.appDownloaded = data;
+        //     });
     }
 
 

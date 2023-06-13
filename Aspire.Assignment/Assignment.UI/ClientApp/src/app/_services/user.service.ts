@@ -14,7 +14,6 @@ export class UserService {
     }
 
     public getAllUser() {
-        debugger;
         return this.http.get<App[]>(`${environment.apiUrl}/api/User`);
     }
 
@@ -27,7 +26,6 @@ export class UserService {
     }
 
     public put(id: number,app: any) {
-        debugger;
         return this.http.put<any>(`${environment.apiUrl}/api/App?id=${id}`,app);
     }
 
@@ -52,12 +50,11 @@ export class UserService {
 
       public DownloadCount(AppId : any)
       {
-        debugger;
         return this.http.put<any>(`${environment.apiUrl}/api/App/AppDownload?AppId=${AppId}`,null);
       }
 
-      public getDownloadedReport() {
-        return this.http.get<any>(`${environment.apiUrl}/api/App/DownloadedReport`);
+      public getDownloadedReport(datefilters : any) : Observable<any> {
+        return this.http.post<any>(`${environment.apiUrl}/api/App/DownloadedReport`,datefilters);
       }
 
       public getAllUserCountReport(){

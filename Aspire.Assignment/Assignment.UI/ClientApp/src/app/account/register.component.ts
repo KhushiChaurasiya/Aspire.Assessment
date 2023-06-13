@@ -50,7 +50,6 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
-        debugger;
         this.accountService.register(this.form.value)
             .pipe(first())
             .subscribe({

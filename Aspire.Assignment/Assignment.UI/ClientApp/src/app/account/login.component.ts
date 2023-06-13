@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
       });
 
       this.authService.authState.subscribe((user: any) => {
-        debugger;
         console.log(user);
         this.user = user;
         this.externalLogin();
@@ -49,7 +48,6 @@ export class LoginComponent implements OnInit {
 }
 
 externalLogin = () => {
-debugger;
     const externalAuth: ExternalAuth = {
       provider: this.user.provider,
       idToken : this.user.idToken
@@ -110,7 +108,6 @@ private validateExternalAuth(externalAuth: ExternalAuth ) {
                   }
                 },
                 error: (error: any) => {
-                  debugger;
                     this.alertService.error(error);
                     this.loading = false;
                 }
@@ -125,7 +122,6 @@ private validateExternalAuth(externalAuth: ExternalAuth ) {
     } 
 
     logInWithGoogle(platform: string): void {
-      debugger;
       platform = GoogleLoginProvider.PROVIDER_ID;
       //Sign In and get user Info using authService that we just injected
          this.authService.signIn(platform).then(
@@ -147,7 +143,6 @@ private validateExternalAuth(externalAuth: ExternalAuth ) {
 
 
     authenticateUser(RoleData : any){
-        debugger;
         if(RoleData == "Admin" && RoleData != "Developer" && RoleData != "User"){
           this.router.navigate(['/adminDash']);
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/adminDash/home';

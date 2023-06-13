@@ -52,7 +52,6 @@ export class AddEditComponent implements OnInit {
               .pipe(first())
               .subscribe({
                 next:(x) => {
-                  debugger;
                  this.form.patchValue(x);
                  this.appDetails = x;
                  this.form.get('files')!.setValue(this.appDetails.files);
@@ -60,7 +59,6 @@ export class AddEditComponent implements OnInit {
                   this.loading = false;
                 },
                 error: (error: any) => {
-                  debugger;
                   this.alertService.error(error);
                   this.submitting = false;
               }
@@ -72,7 +70,6 @@ export class AddEditComponent implements OnInit {
   get f() { return this.form.controls; }
 
   onSubmit() {
-      debugger;
       this.submitted = true;
 
       // reset alerts on submit
@@ -110,7 +107,6 @@ export class AddEditComponent implements OnInit {
   }
 
   private saveApp() {
-      debugger;
       const filedata = new FormData();
       if(this.id != 0 && this.id != undefined){
       filedata.append('id',this.id);

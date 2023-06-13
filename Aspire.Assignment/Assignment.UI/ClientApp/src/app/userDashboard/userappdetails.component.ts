@@ -40,9 +40,7 @@ export class UserappdetailsComponent implements OnInit {
 
   }
 
-  search(value: string): void {
-    debugger;
-    
+  search(value: string): void {    
     if(value == ""){
       this.getAllApp();
     }

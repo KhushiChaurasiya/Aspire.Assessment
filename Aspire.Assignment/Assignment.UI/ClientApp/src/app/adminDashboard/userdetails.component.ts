@@ -13,7 +13,6 @@ export class UserdetailsComponent implements OnInit {
   constructor( private userService: UserService ) { }
 
   ngOnInit() {
-    debugger;
     this.userService.getAllUser()
     // .pipe(first())
      .subscribe((user) => {

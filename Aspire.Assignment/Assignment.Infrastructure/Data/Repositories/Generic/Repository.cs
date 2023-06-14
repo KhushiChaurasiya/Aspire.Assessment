@@ -67,14 +67,22 @@ namespace Assignment.Core.Data.Repositories
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public IEnumerable<DownloadReportDTO> GetDownloadedReport()
+        public IEnumerable<DownloadReportDTO> GetDownloadedReport(DateTime? fromDate, DateTime? toDate)
         {
             try 
             { 
                 var downList = _context.AppDownload.ToList();
-               var  customDownList = downList.GroupBy(x => new { x.AppId, x.DownloadedDate }).Select(g => new { NumberOfDownloads = g.Count(), DownloadedDate = g.Key.DownloadedDate, AppId = g.Key.AppId }).ToList();
-                var today = DateTime.Today;
-                var finalDownloadedList = customDownList.Where(x => today >= x.DownloadedDate && today <= x.DownloadedDate).ToList();
+                var  customDownList = downList.GroupBy(x => new { x.AppId, x.DownloadedDate }).Select(g => new { NumberOfDownloads = g.Count(), DownloadedDate = g.Key.DownloadedDate, AppId = g.Key.AppId }).ToList();
+                if (fromDate == null)
+                {
+                    fromDate = DateTime.Today;
+                }
+                if (toDate == null)
+                {
+                    toDate = DateTime.Today;
+                }
+                var DownloadedList = customDownList.Where(x => x.DownloadedDate >= fromDate &&  x.DownloadedDate <= toDate).ToList();
+                var finalDownloadedList = DownloadedList.GroupBy(x => x.AppId).Select(g => new { AppId = g.Key, NumberOfDownloads = g.Sum(c => c.NumberOfDownloads) }).ToList();
 
 
                 var ft = (from d in finalDownloadedList
@@ -85,12 +93,12 @@ namespace Assignment.Core.Data.Repositories
                           select new DownloadReportDTO
                           {
                               AppName = subpet.Name,
-                              DownlodedDate = d.DownloadedDate,
                               NumberOfDownloads = d.NumberOfDownloads
                           }).ToList();
 
                 return (IEnumerable<DownloadReportDTO>)ft;
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 throw;
             }

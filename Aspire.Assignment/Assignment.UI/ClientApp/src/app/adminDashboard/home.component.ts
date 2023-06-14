@@ -17,9 +17,10 @@ export class HomeComponent  implements AfterViewInit{
     totalUser : any;
     totalLogReport : Logs[];
     model:any;
-    FromDate : string;
-    ToDate : string;
     bindDateFilter : any[] = [];
+    toDate : Date= new Date() ;
+    fromDate : Date = new Date(); 
+  
 
   @ViewChild('pieCanvas') pieCanvas!: { nativeElement: any };
 
@@ -37,15 +38,15 @@ export class HomeComponent  implements AfterViewInit{
 
   SelectedFromDate(event :any)
   {
-    this.FromDate = event.target.value;
-    this.bindDateFilter.push({ key: "FromDate", value: this.FromDate });
+    this.fromDate = event.target.value;
+    this.pieChart.destroy();
     this.getAppDownloadedChartReport()
   }
   SelectedToDate(event :any)
   {
-    this.ToDate = event.target.value;
+    this.toDate = event.target.value;
     // this.bindDateFilter.push({"ToDate":this.ToDate});
-    this.bindDateFilter.push({ key: "ToDate", value: this.ToDate });
+    this.pieChart.destroy();
     this.getAppDownloadedChartReport();
   }
   
@@ -67,6 +68,7 @@ export class HomeComponent  implements AfterViewInit{
   }
 
   pieChartBrowser(appD : any): void {
+    debugger;
     this.canvas = this.pieCanvas.nativeElement;
     this.ctx = this.canvas.getContext('2d');
 
@@ -93,26 +95,30 @@ export class HomeComponent  implements AfterViewInit{
 
   getAppDownloadedChartReport()
   {
-    this.userService.getDownloadedReport(this.bindDateFilter)
-    .subscribe({
+    this.userService.getDownloadedReport(this.fromDate,this.toDate).subscribe({
       next:(data) => {
         this.pieChartBrowser(data);
       },
       error: (error: any) => {
         this.alertService.error(error);
-    }
+      }
     });
   }
   getLogAndUserCountReport()
   {
+    this.userService.getAllUserCountReport().subscribe(res =>{
+    this.totalUser = res;
+    });
     
-this.userService.getAllUserCountReport().subscribe(res =>{
-  this.totalUser = res;
-  });
-  
-  this.userService.getAllLogReport().subscribe(res=>{
-  this.totalLogReport = res;
-  console.log(this.totalLogReport);
-  });
+    this.userService.getAllLogReport().subscribe(res=>{
+    this.totalLogReport = res;
+    console.log(this.totalLogReport);
+    });
+  }
+
+  SelectedLogDateTime(event: any)
+  {
+    debugger;
+    var datetime = event.target.value;
   }
 }

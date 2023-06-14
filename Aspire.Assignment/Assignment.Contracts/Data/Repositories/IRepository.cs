@@ -11,6 +11,6 @@ namespace Assignment.Contracts.Data.Repositories
         void Update(T entity);
         void Delete(object id);
         int Count();
-        IEnumerable<DownloadReportDTO> GetDownloadedReport();
+        IEnumerable<DownloadReportDTO> GetDownloadedReport(DateTime? fromDate, DateTime? toDate);
     }
 }

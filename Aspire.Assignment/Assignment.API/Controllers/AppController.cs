@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -247,24 +248,18 @@ namespace Assignment.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         [Route("DownloadedReport")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DownloadedReport(Dictionary<string, string>[] datefilterdata)
+        public async Task<IActionResult> DownloadedReport(DateTime? fromdate,DateTime? todate)
         {
             try
             {
-                if (datefilterdata.Length > 0)
-                {
-                    foreach (var datefilter in datefilterdata)
-                    {
-                        var FromDate = datefilter.Values;
-                    }
-                }
-                var query = new GetDownloadedReportDetailsQuery();
+                var query = new GetDownloadedReportDetailsQuery(fromdate, todate);
                 var response = await _mediator.Send(query);
+                
                 return Ok(response);
             }
             catch (Exception ex)

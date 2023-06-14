@@ -30,10 +30,10 @@ namespace Assignment.Providers.Handlers.Queries
         {
             var app = await Task.FromResult(_repository.App.Get(request.AppId));
 
-            if (app == null)
-            {
-                throw new EntityNotFoundException($"No App found for Id {request.AppId}");
-            }
+            //if (app == null)
+            //{
+            //    throw new EntityNotFoundException($"No App found for Id {request.AppId}");
+            //}
 
             return _mapper.Map<AppDTO>(app);
         }

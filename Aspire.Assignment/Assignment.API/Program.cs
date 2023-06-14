@@ -55,16 +55,5 @@ namespace Assignment
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                 })
                 .UseNLog();
-
-
-                //        var builder = CreateHostBuilder(args).Build();
-                //                using var scope = builder.Services.CreateScope();
-                //                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-                //                if (db.Database.GetPendingMigrations().Any())
-                //                {
-                //                    db.Database.Migrate();
-                //                }
-
-                //builder.Run();
     }
 }

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignment.API", "Assignmen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignment.UI", "Assignment.UI\Assignment.UI.csproj", "{60F4CADB-EA40-4198-A667-D420C07C261A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspire.Assignment.UnitTest", "Aspire.Assignment.UnitTest\Aspire.Assignment.UnitTest.csproj", "{06C1B0A7-487E-461A-9352-533CF45948D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{60F4CADB-EA40-4198-A667-D420C07C261A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60F4CADB-EA40-4198-A667-D420C07C261A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60F4CADB-EA40-4198-A667-D420C07C261A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06C1B0A7-487E-461A-9352-533CF45948D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06C1B0A7-487E-461A-9352-533CF45948D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06C1B0A7-487E-461A-9352-533CF45948D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06C1B0A7-487E-461A-9352-533CF45948D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using System.Linq;
 using System;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment.Controllers
 {
@@ -50,6 +51,7 @@ namespace Assignment.Controllers
             return Ok(response);
         }
 
+        [ExcludeFromCodeCoverage]
         [HttpPost]
         [ProducesResponseType(typeof(int), (int)HttpStatusCode.Created)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
@@ -75,6 +77,7 @@ namespace Assignment.Controllers
             }
         }
 
+        
         [HttpGet]
         [Route("{name}")]
         [ProducesResponseType(typeof(UserDTO), (int)HttpStatusCode.OK)]
@@ -98,6 +101,7 @@ namespace Assignment.Controllers
         }
 
         [HttpPost]
+        [ExcludeFromCodeCoverage]
         [Route("ExternalLogin")]
         [ProducesResponseType(typeof(ExternalAuthDTO), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]

@@ -14,6 +14,6 @@ namespace Assignment.Contracts.DTO
         public int Id { get; set; }
         public virtual int AppId { get; set; }
         public DateOnly DownloadedDate { get; set; }
-        public DateTime AddedOn { get; set; }
+        //public DateTime AddedOn { get; set; }
     }
 }

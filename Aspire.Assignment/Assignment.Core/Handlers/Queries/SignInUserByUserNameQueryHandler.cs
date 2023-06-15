@@ -73,13 +73,7 @@ namespace Assignment.Providers.Handlers.Queries
 
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(new[] { new Claim("userId", request.UserName) }),
-            //    Expires = DateTime.UtcNow.AddDays(7),
-            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            //};
-
+          
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             LoginResponseDTO res = new LoginResponseDTO()

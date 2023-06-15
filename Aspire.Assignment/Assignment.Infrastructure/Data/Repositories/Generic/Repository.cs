@@ -104,10 +104,11 @@ namespace Assignment.Core.Data.Repositories
             }
         }
 
-        //public IEnumerable<int> GetUserReport()
-        //{
-        //    int repList = _context.User.Count();
-        //    return repList;
-        //}
+        public IEnumerable<LogsDTO> getLogReportWiseDate(DateTime? logwisedate)
+        {
+            var logreport = _context.Logs.ToList();
+            //var finalLogReport = logreport.Where(x=>x.CreatedOn.)
+            return (IEnumerable<LogsDTO>)logreport;
+        }
     }
 }

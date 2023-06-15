@@ -25,12 +25,11 @@ namespace Assignment.Core.Handlers.Commands
     public class CreateAppDownloadCommandHandler : IRequestHandler<CreateAppDownloadCommand, int>
     {
         private readonly IUnitOfWork _repository;
-        private readonly IValidator<CreateAppDTO> _validator;
 
-        public CreateAppDownloadCommandHandler(IUnitOfWork repository, IValidator<CreateAppDTO> validator)
+        public CreateAppDownloadCommandHandler(IUnitOfWork repository)
         {
             _repository = repository;
-            _validator = validator;
+
         }
 
         public async Task<int> Handle(CreateAppDownloadCommand request, CancellationToken cancellationToken)

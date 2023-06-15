@@ -60,7 +60,8 @@ export class UserService {
       public getAllUserCountReport(){
         return this.http.get<any>(`${environment.apiUrl}/api/User/GetAllUserCountReport`)
       }
-    public getAllLogReport() {
-      return this.http.get<any>(`${environment.apiUrl}/api/App/LogReport`);
-  }
+      public getAllLogReport(filterLogWiseDate : Date) {
+        return this.http.get<any>(`${environment.apiUrl}/api/App/LogReport?logDate=${filterLogWiseDate}`);
+    }
+  
 } 

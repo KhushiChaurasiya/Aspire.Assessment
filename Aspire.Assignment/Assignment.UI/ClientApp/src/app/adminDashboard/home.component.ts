@@ -20,6 +20,8 @@ export class HomeComponent  implements AfterViewInit{
     bindDateFilter : any[] = [];
     toDate : Date= new Date() ;
     fromDate : Date = new Date(); 
+    filterLogWiseDate : Date = new Date();
+
   
 
   @ViewChild('pieCanvas') pieCanvas!: { nativeElement: any };
@@ -32,7 +34,8 @@ export class HomeComponent  implements AfterViewInit{
 
   ngAfterViewInit(): void {
     this.getAppDownloadedChartReport();
-    this.getLogAndUserCountReport();
+    this.getUserCountReport();
+    this.getLogReport();
     
   }
 
@@ -48,6 +51,13 @@ export class HomeComponent  implements AfterViewInit{
     // this.bindDateFilter.push({"ToDate":this.ToDate});
     this.pieChart.destroy();
     this.getAppDownloadedChartReport();
+  }
+  
+  SelectedLogDateTime(event: any)
+  {
+    debugger;
+    this.filterLogWiseDate = event.target.value;
+    this.getLogReport();
   }
   
   getAppName(data:[]){
@@ -104,21 +114,18 @@ export class HomeComponent  implements AfterViewInit{
       }
     });
   }
-  getLogAndUserCountReport()
+  getUserCountReport()
   {
     this.userService.getAllUserCountReport().subscribe(res =>{
     this.totalUser = res;
     });
-    
-    this.userService.getAllLogReport().subscribe(res=>{
-    this.totalLogReport = res;
-    console.log(this.totalLogReport);
-    });
   }
-
-  SelectedLogDateTime(event: any)
+  getLogReport()
   {
-    debugger;
-    var datetime = event.target.value;
+    this.userService.getAllLogReport(this.filterLogWiseDate).subscribe(res=>{
+      debugger;
+      this.totalLogReport = res;
+      console.log(this.totalLogReport);
+      });
   }
 }

@@ -31,12 +31,11 @@ namespace Assignment.Providers.Handlers.Queries
         {
             var app = await Task.FromResult(_repository.User.GetByEmail(request.Email));
 
-            //if (app == null)
-            //{
-            //    throw new EntityNotFoundException($"No App found for Id {request.Email}");
-            //}
-
-            return _mapper.Map<UserDTO>(app);
+            if (app == null)
+            {
+                throw new EntityNotFoundException($"No App found for Id {request.Email}");
+            }
+            return _mapper.Map<UserDTO>(app); 
         }
     }
 }

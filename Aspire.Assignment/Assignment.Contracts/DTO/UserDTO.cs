@@ -19,6 +19,5 @@ namespace Assignment.Contracts.DTO
         public string? Role { get; set; }
         public string? Provider { get; set; }
         public string? IdToken { get; set; }
-        public DateTime AddedOn { get; set; }
     }
 }

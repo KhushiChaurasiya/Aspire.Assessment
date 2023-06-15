@@ -22,10 +22,11 @@ namespace Aspire.Assignment.UnitTest
             mockRepo.Setup(r => r.User.GetAll());
             return mockRepo;
         }
+
+
         public static Mock<IMapper> GetMapper()
         {
             var mockRepo = new Mock<IMapper>();
-
             return mockRepo;
         }
 

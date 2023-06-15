@@ -10,6 +10,5 @@ namespace Assignment.Contracts.DTO
         public decimal Price { get; set; }
         public string Type { get; set; }
         public string Files { get; set; }
-        public DateTime AddedOn { get; set; }
     }
 }

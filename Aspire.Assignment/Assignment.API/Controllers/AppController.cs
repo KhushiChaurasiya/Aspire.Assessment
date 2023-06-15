@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Assignment.API.Controllers;
 using Assignment.Contracts.Data.Entities;
 using Assignment.Contracts.DTO;
 using Assignment.Core.Exceptions;
@@ -280,11 +280,11 @@ namespace Assignment.Controllers
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         [Route("LogReport")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> LogReport()
+        public async Task<IActionResult> LogReport(DateTime? logcreateddate)
         {
             try
             {
-                var query = new GetAllLogReportQuery();
+                var query = new GetAllLogReportQuery(logcreateddate);
                 var response = await _mediator.Send(query);
                 return Ok(response);
             }

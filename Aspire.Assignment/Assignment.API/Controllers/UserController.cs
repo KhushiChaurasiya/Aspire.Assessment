@@ -27,9 +27,9 @@ namespace Assignment.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<AppController> _logger;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IMediator mediator, IConfiguration configuration, ILogger<AppController> logger)
+        public UserController(IMediator mediator, IConfiguration configuration, ILogger<UserController> logger)
         {
             _mediator = mediator;
             _configuration = configuration;

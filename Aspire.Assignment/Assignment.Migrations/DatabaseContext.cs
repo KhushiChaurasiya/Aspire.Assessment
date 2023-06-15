@@ -23,7 +23,6 @@ namespace Assignment.Migrations
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
         public DbSet<AppDownload> AppDownload { get; set; }
-        public DbSet<ErrorLog> ErrorLog { get; set; }
         public DbSet<Logs> Logs { get; set; }
     }
 }

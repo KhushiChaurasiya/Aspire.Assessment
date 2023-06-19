@@ -21,6 +21,7 @@ export class HomeComponent  implements AfterViewInit{
     toDate : Date= new Date() ;
     fromDate : Date = new Date(); 
     filterLogWiseDate : Date = new Date();
+    level : string = "Error";
 
   
 
@@ -116,16 +117,33 @@ export class HomeComponent  implements AfterViewInit{
   }
   getUserCountReport()
   {
-    this.userService.getAllUserCountReport().subscribe(res =>{
-    this.totalUser = res;
+    this.userService.getAllUserCountReport().subscribe({
+      next:(res) => {
+        this.totalUser = res;
+      },
+      error: (error: any) => {
+        this.alertService.error(error);
+      }
     });
   }
   getLogReport()
   {
-    this.userService.getAllLogReport(this.filterLogWiseDate).subscribe(res=>{
-      debugger;
-      this.totalLogReport = res;
+    debugger;
+   
+    this.userService.getAllLogReport(this.filterLogWiseDate,this.level).subscribe({
+      next:(res) => {
+        this.totalLogReport = res;
       console.log(this.totalLogReport);
-      });
+      },
+      error: (error: any) => {
+        this.alertService.error(error);
+      }
+    });
+  }
+  SelectedLevel(event:any)
+  {
+    debugger;
+    this.level = event.target.value;
+    this.getLogReport();
   }
 }

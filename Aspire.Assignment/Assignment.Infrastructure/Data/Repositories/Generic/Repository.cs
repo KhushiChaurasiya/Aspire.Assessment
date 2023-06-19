@@ -6,6 +6,7 @@ using Assignment.Contracts.DTO;
 using Assignment.Contracts.Data.Entities;
 using System.Linq;
 using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Assignment.Core.Data.Repositories
 {
@@ -104,11 +105,64 @@ namespace Assignment.Core.Data.Repositories
             }
         }
 
-        public IEnumerable<LogsDTO> getLogReportWiseDate(DateTime? logwisedate)
+        public IEnumerable<LogsDTO> getLogReportWiseDate(DateTime logwisedate, string level)
         {
-            var logreport = _context.Logs.ToList();
-            //var finalLogReport = logreport.Where(x=>x.CreatedOn.)
-            return (IEnumerable<LogsDTO>)logreport;
+            var FinalLogReport = new List<LogsDTO>();
+            var fLogReport  = new List<Logs>();
+            DateTime? dtDate = logwisedate;
+
+            var logreport = _context.Logs.Where(x=>x.Level == level).ToList();
+
+            if (logwisedate.ToString() != "01-01-0001 00:00:00")
+            {
+                fLogReport = logreport.Where(x => x.CreatedOn.Date == logwisedate.Date && x.Level == level).ToList();
+                FinalLogReport = (from d in fLogReport
+                                  select new LogsDTO
+                                  {
+                                      Id = d.Id,
+                                      CreatedOn = d.CreatedOn,
+                                      Exception = d.Exception,
+                                      Level = d.Level,
+                                      Logger = d.Logger,
+                                      Message = d.Message,
+                                      StackTrace = d.StackTrace,
+                                      Url = d.Url
+                                  }).ToList();
+
+                return (IEnumerable<LogsDTO>)FinalLogReport;
+            }
+            if (fLogReport.Count > 0)
+            {
+                FinalLogReport = (from d in fLogReport
+                                  select new LogsDTO
+                                  {
+                                      Id = d.Id,
+                                      CreatedOn = d.CreatedOn,
+                                      Exception = d.Exception,
+                                      Level = d.Level,
+                                      Logger = d.Logger,
+                                      Message = d.Message,
+                                      StackTrace = d.StackTrace,
+                                      Url = d.Url
+                                  }).ToList();
+              
+            }
+            else
+            {
+                FinalLogReport = (from d in logreport
+                                  select new LogsDTO
+                                  {
+                                      Id = d.Id,
+                                      CreatedOn = d.CreatedOn,
+                                      Exception = d.Exception,
+                                      Level = d.Level,
+                                      Logger = d.Logger,
+                                      Message = d.Message,
+                                      StackTrace = d.StackTrace,
+                                      Url = d.Url
+                                  }).ToList();
+            }
+            return (IEnumerable<LogsDTO>)FinalLogReport;
         }
     }
 }

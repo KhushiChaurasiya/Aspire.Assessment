@@ -10,9 +10,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment.API
 {
+    [ExcludeFromCodeCoverage]
     public class JwtHandler
     {
         private readonly IConfiguration _configuration;
@@ -93,6 +95,5 @@ namespace Assignment.API
 
             return tokenOptions;
         }
-    
     }
 }

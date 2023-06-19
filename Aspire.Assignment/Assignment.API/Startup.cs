@@ -26,9 +26,11 @@ using System;
 using Assignment.Core.Exceptions;
 using NLog;
 using NLog.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment
 {
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         

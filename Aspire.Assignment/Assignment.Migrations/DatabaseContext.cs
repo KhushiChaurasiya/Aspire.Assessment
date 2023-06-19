@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Assignment.Contracts.Data.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
@@ -21,7 +23,6 @@ namespace Assignment.Migrations
         }
         public DbSet<App> App { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<Role> Role { get; set; }
         public DbSet<AppDownload> AppDownload { get; set; }
         public DbSet<Logs> Logs { get; set; }
     }

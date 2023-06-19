@@ -1,8 +1,10 @@
 ﻿using Assignment.Contracts.DTO;
 using FluentValidation;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment.Core.Validators
 {
+    [ExcludeFromCodeCoverage]
     public class CreateAppDTOValidator : AbstractValidator<CreateAppDTO>
     {
         public CreateAppDTOValidator()

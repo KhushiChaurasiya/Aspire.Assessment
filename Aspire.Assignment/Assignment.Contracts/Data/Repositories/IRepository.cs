@@ -12,6 +12,6 @@ namespace Assignment.Contracts.Data.Repositories
         void Delete(object id);
         int Count();
         IEnumerable<DownloadReportDTO> GetDownloadedReport(DateTime? fromDate, DateTime? toDate);
-        IEnumerable<LogsDTO> getLogReportWiseDate(DateTime? logwisedate);
+        IEnumerable<LogsDTO> getLogReportWiseDate(DateTime logwisedate,string level);
     }
 }

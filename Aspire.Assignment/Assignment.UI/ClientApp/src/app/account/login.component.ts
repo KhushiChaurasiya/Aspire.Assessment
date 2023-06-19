@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
     user!: SocialUser; 
     Role! : string;
     userData : User[];
+    private returnUrl: string;
+
+    
 
     constructor(
         private formBuilder: FormBuilder,
@@ -38,6 +41,7 @@ export class LoginComponent implements OnInit {
           username: ['', Validators.required],
           password: ['', Validators.required]
       });
+      this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
       this.authService.authState.subscribe((user: any) => {
         console.log(user);
@@ -47,23 +51,52 @@ export class LoginComponent implements OnInit {
 
 }
 
+// externalLogin = () => {
+//     const externalAuth: ExternalAuth = {
+//       provider: this.user.provider,
+//       idToken : this.user.idToken
+//     }
+//     this.validateExternalAuth(externalAuth);
+// }
+
+// private validateExternalAuth(externalAuth: ExternalAuth ) {
+//   this.accountService.externalLogin(externalAuth)
+//     .subscribe({
+//       next: (res) => {
+//           localStorage.setItem("token", res.token);
+//           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+//           this.router.navigateByUrl(returnUrl);
+//     },
+//       error: (err: HttpErrorResponse) => {
+//       }
+//     });
+// }
+
 externalLogin = () => {
+  debugger;
+  this.accountService.signInWithGoogle();
+
+  this.accountService.extAuthChanged.subscribe( user => {
     const externalAuth: ExternalAuth = {
-      provider: this.user.provider,
-      idToken : this.user.idToken
+      provider: user.provider,
+      idToken: user.idToken
     }
+
     this.validateExternalAuth(externalAuth);
+  })
 }
 
-private validateExternalAuth(externalAuth: ExternalAuth ) {
-  this.accountService.externalLogin(externalAuth)
+private validateExternalAuth(externalAuth: ExternalAuth) {
+  debugger;
+  this.accountService.externalLogin('api/Auth/ExternalLogin', externalAuth)
     .subscribe({
       next: (res) => {
           localStorage.setItem("token", res.token);
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigateByUrl(returnUrl);
+          this.accountService.sendAuthStateChangeNotification(res.isAuthSuccessful);
+          this.router.navigate([this.returnUrl]);
     },
       error: (err: HttpErrorResponse) => {
+        this.accountService.signOutExternal();
       }
     });
 }

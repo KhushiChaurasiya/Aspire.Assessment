@@ -14,10 +14,12 @@ namespace Assignment.Core.Handlers.Queries
 
     public class GetAllLogReportQuery : IRequest<IEnumerable<LogsDTO>>
     {
-        public DateTime? _logdate { get; }
-        public GetAllLogReportQuery(DateTime? logdate)
+        public DateTime _logdate { get; }
+        public string _level { get; }
+        public GetAllLogReportQuery(DateTime logdate, string level)
         {
             this._logdate = logdate;
+            _level = level;
         }
     }
     public class GetAllLogReportQueryHandler : IRequestHandler<GetAllLogReportQuery, IEnumerable<LogsDTO>>
@@ -33,13 +35,15 @@ namespace Assignment.Core.Handlers.Queries
 
         public async Task<IEnumerable<LogsDTO>> Handle(GetAllLogReportQuery request, CancellationToken cancellationToken)
         {
-            DateTime? logdatereport = request._logdate;
-            var entities = await Task.FromResult(_repository.Errorlog.getLogReportWiseDate(logdatereport));
+            DateTime logdatereport = request._logdate;
+            string level = request._level;
+            var entities = await Task.FromResult(_repository.Errorlog.getLogReportWiseDate(logdatereport, level));
             if (entities == null)
             {
                 throw new EntityNotFoundException($"There are no any data!");
             }
             return _mapper.Map<IEnumerable<LogsDTO>>(entities);
+            
         }
     }
 }

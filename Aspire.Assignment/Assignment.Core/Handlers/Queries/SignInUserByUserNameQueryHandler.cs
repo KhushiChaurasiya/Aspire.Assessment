@@ -13,9 +13,11 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Nodes;
 using System.Data;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Assignment.Providers.Handlers.Queries
 {
+    [ExcludeFromCodeCoverage]
     public class SignInUserByUserNameQuery : IRequest<LoginResponseDTO>
     {
         public string UserName { get; }
@@ -27,6 +29,7 @@ namespace Assignment.Providers.Handlers.Queries
         }
     }
 
+    [ExcludeFromCodeCoverage]
     public class SignInUserByUserNameQueryHandler : IRequestHandler<SignInUserByUserNameQuery, LoginResponseDTO>
     {
         private readonly IUnitOfWork _repository;

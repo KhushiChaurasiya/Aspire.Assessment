@@ -21,26 +21,33 @@ using System.ComponentModel.DataAnnotations;
 using Assignment.Contracts.Data.Repositories;
 using Assignment.Core.Mapper;
 using Assignment.Providers.Handlers.Commands;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Assignment.API;
 
 namespace Aspire.Assignment.UnitTest
 {
     public class AuthControllerTest
     {
-        private  Mock<IMediator> _mediator;
+        private Mock<IMediator> _mediator;
         private Mock<IConfiguration> _configuration;
         private Mock<IPasswordHasher<User>> _passwordHasher;
-        private Mock<AppSettingsDTO> _applicationSettings;
+        private Mock<IOptions<AppSettingsDTO>> _applicationSettings;
         private Mock<ILogger<AuthController>> _logger;
         private Mock<IUnitOfWork> repository;
+        private  Mock<JwtHandler> _jwtHandler;
+        private Mock<UserManager<User>> _userManager;
 
         public AuthControllerTest()
         {
             _mediator = new Mock<IMediator>();
             _logger = new Mock<ILogger<AuthController>>();
             _configuration = new Mock<IConfiguration>();
-            _applicationSettings = new Mock<AppSettingsDTO>();
+            _applicationSettings = new Mock<IOptions<AppSettingsDTO>>();
             _passwordHasher = new Mock<IPasswordHasher<User>>();
             repository = new Mock<IUnitOfWork>();
+            _jwtHandler = new Mock<JwtHandler>();
+            _userManager = new Mock<UserManager<User>>();
         }
 
         [Fact]
@@ -55,6 +62,8 @@ namespace Aspire.Assignment.UnitTest
             var result = await handler.Handle(command, CancellationToken.None);
 
             Assert.IsType<UserDTO[]>(result);
+            repository.Verify(x => x.User.Get(It.IsAny<int>()), Times.Exactly(0));
+
         }
 
         //[Fact]
@@ -98,6 +107,7 @@ namespace Aspire.Assignment.UnitTest
         //}
 
         // passed
+
         [Fact]
         public async void GetById_ExistingGuidPassed_ReturnsRightItem()
         {
@@ -127,7 +137,34 @@ namespace Aspire.Assignment.UnitTest
             GetUserByUserNameQueryHandler handler = new GetUserByUserNameQueryHandler(repository.Object, mapper);
             var result = await handler.Handle(new GetUserByUserNameQuery(username), CancellationToken.None);
             Assert.IsType<UserDTO>(result);
+            repository.Verify(x => x.User.GetByEmail(It.IsAny<string>()), Times.Exactly(1));
 
+        }
+
+        [Fact]
+        public async void GetById_WhenCalled_OKResults()
+        {
+            var user = new UserDTO()
+            {
+                Id = 1,
+                Firstname = "test",
+                Lastname = "test",
+                Username = "test",
+                Email = "Khushboo@gmail.com",
+                Password = "test",
+                Address = "test",
+                Role = "User",
+                Provider = "test",
+                IdToken = "test"
+
+            };
+
+            _mediator.Setup(x => x.Send(It.IsAny<UserDTO>(), new CancellationToken())).ReturnsAsync(user);
+
+            var controller = new AuthController(_mediator.Object, _configuration.Object, _passwordHasher.Object, _applicationSettings.Object, _logger.Object, _jwtHandler.Object, _userManager.Object);
+            var result = await controller.GetById(It.IsAny<string>());
+            Assert.IsType<OkObjectResult>(result);
+            repository.Verify(x => x.User.GetByEmail(It.IsAny<string>()), Times.Exactly(0));
         }
     }
 

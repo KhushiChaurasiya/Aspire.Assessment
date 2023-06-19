@@ -19,8 +19,6 @@ namespace Assignment.Core.Data
 
         public IUserRepository User => new UserRepository(_context);
 
-        public IRoleRepository Role => new RoleRepository(_context);
-
         public IAppdownloadRepository Appdownload => new AppdownloadRepository(_context);
 
         public IErrorLogRepository Errorlog => new ErrorLogRepository(_context);

@@ -6,7 +6,6 @@ namespace Assignment.Contracts.Data
     {
         IAppRepository App { get; }
         IUserRepository User { get; }
-        IRoleRepository Role { get; }
         IAppdownloadRepository Appdownload { get; }
         IErrorLogRepository Errorlog { get; }
         Task CommitAsync();

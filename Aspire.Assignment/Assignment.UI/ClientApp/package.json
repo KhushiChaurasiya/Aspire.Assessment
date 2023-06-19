@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "^14.0.3",
     "@angular/platform-server": "^14.0.3",
     "@angular/router": "^14.0.3",
+    "@auth0/angular-jwt": "^5.1.2",
     "@popperjs/core": "^2.11.7",
     "@types/google-one-tap": "^1.2.2",
     "angularx-social-login": "^4.1.0",

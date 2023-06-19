@@ -85,7 +85,16 @@
               <h3 class="mb-0">Logs Report</h3>
             </div>
             <div class="col text-right">
-              <input matInput type="datetime-local" (change)="SelectedLogDateTime($event)" value="{{fromDate |date : 'yyyy-MM-dd'}}" >
+              <label>Level:</label>
+            <select (change)="SelectedLevel($event)">
+                <option disabled>Select Level</option>
+                <option>Choose Level</option>
+                <option>Debug</option>
+                <option selected>Error</option>
+                <option>Info</option>
+            </select>
+              <label class="form-label">Created Date :  </label>
+              <input matInput type="datetime-local" (change)="SelectedLogDateTime($event)" value ="{{filterLogWiseDate |date : 'yyyy-MM-dd'}}" >
             </div>
           </div>
         </div>

@@ -6,10 +6,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Assignment
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

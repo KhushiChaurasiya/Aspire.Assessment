@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ExternalAuth } from '../_models/externalauth';
+// import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthResponseDto } from '../_models/AuthResponseDto';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -18,11 +20,17 @@ export class AccountService {
     private extAuthChangeSub = new Subject<SocialUser>();
     public authChanged = this.authChangeSub.asObservable();
     public extAuthChanged = this.extAuthChangeSub.asObservable();
+    public isExternalAuth: boolean;
 
     constructor(
         private router: Router,
-        private http: HttpClient
+        private http: HttpClient, private externalAuthService: SocialAuthService
     ) {
+        this.externalAuthService.authState.subscribe((usr) => {
+            console.log(usr);
+            this.extAuthChangeSub.next(usr);
+            this.isExternalAuth = true;
+          })
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
         this.user = this.userSubject.asObservable();
     }
@@ -65,8 +73,24 @@ export class AccountService {
   }
 
     
-  public externalLogin = (body: ExternalAuth) => {
-    return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
+//   public externalLogin = (body: ExternalAuth) => {
+//     return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
+//   }
+
+  public signInWithGoogle = ()=> {
+    this.externalAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
-  
+
+  public signOutExternal = () => {
+    this.externalAuthService.signOut();
+  }
+  public externalLogin = (route: string, body: ExternalAuth) => {
+    return this.http.post<AuthResponseDto>(this.createCompleteRoute(route, environment.apiUrl), body);
+  }
+  private createCompleteRoute = (route: string, envAddress: string) => {
+    return `${envAddress}/${route}`;
+  }
+  public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
+    this.authChangeSub.next(isAuthenticated);
+  }
 }

@@ -177,8 +177,14 @@ namespace Assignment.Controllers
         {
             try
             {
+                _logger.LogInformation("delete method called");
                 var query = new DeleteAppByIdQuery(id);
                 var response = await _mediator.Send(query);
+                if(response == null)
+                {
+                    _logger.LogError("App Item {0} Deleted", id);
+                    throw new NullReferenceException("App id not found");
+                }
                 _logger.LogInformation("App Item {0} Deleted",id);
 
                 return Ok(response);
@@ -199,20 +205,17 @@ namespace Assignment.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> Download([FromQuery] IFormFile file)
         {
-
             try
             {
+                _logger.LogInformation("Download the apps");
                 var query = new GetDownloadFilesQuery(file);
                 var response = await _mediator.Send(query);
-                return Ok(response);
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(new BaseResponseDTO
+                if(response == null)
                 {
-                    IsSuccess = false,
-                    Errors = new string[] { ex.Message }
-                });
+                    _logger.LogError("Getting error while download the apps");
+                    throw new NullReferenceException("Getting error while download the apps");
+                }
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -233,8 +236,15 @@ namespace Assignment.Controllers
         {
             try
             {
+                _logger.LogInformation("Insert the downloaded app details");
                 var command = new CreateAppDownloadCommand(AppId);
                 var response = await _mediator.Send(command);
+                if(response <= 0)
+                {
+
+                    _logger.LogError("Getting error while download the apps");
+                    throw new Exception("Getting error while download the apps");
+                }
                 return Ok(response);
             }
             catch (Exception ex)
@@ -280,23 +290,22 @@ namespace Assignment.Controllers
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         [Route("LogReport")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> LogReport(DateTime? logcreateddate)
+        public async Task<IActionResult> LogReport(DateTime logcreateddate, string level)
         {
             try
             {
-                var query = new GetAllLogReportQuery(logcreateddate);
+                var query = new GetAllLogReportQuery(logcreateddate, level);
                 var response = await _mediator.Send(query);
+                if(response== null)
+                {
+                    throw new NullReferenceException("Getting error when see the report");
+                }
                 return Ok(response);
             }
             catch (Exception ex)
             {
                 _logger.LogError("Getting error when see the report: {ex}", ex);
-
-                return NotFound(new BaseResponseDTO
-                {
-                    IsSuccess = false,
-                    Errors = new string[] { ex.Message }
-                });
+                throw new NullReferenceException("Getting error while see the logs report");
             }
         }
     }

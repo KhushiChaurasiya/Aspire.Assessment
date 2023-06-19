@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Runtime.Intrinsics.X86;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Assignment.Core.Exceptions
 {
+    [ExcludeFromCodeCoverage]
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;

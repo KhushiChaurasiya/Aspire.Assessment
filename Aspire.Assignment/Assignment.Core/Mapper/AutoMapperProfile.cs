@@ -10,7 +10,6 @@ namespace Assignment.Core.Mapper
         {
             CreateMap<App, AppDTO>();
             CreateMap<User, UserDTO>();
-            CreateMap<Role, RoleDTO>();
             CreateMap<AppDownload, AppDownloadDTO>();
             CreateMap<Logs, LogsDTO>();
         }

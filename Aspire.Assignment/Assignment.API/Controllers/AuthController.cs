@@ -18,6 +18,11 @@ using System;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using Assignment.API;
+using Assignment.Providers.Handlers.Commands;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace Assignment.Controllers
 {
@@ -110,18 +115,54 @@ namespace Assignment.Controllers
         [Route("ExternalLogin")]
         [ProducesResponseType(typeof(ExternalAuthDTO), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
-        public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthDTO externalAuth)
+        public async Task<IActionResult> ExternalLogin([FromBody] User externalAuth)
         {
+            CreateUserDTO createUserDTO = new CreateUserDTO()
+            {
+                Firstname = externalAuth.Firstname,
+                Lastname = externalAuth.Lastname,
+                Email = externalAuth.Email,
+                IdToken = externalAuth.IdToken,
+                Username = externalAuth.Username,
+                Provider = externalAuth.Provider,
+                Role = "User",
+                Password = "test@1996",
+                Address = "test",
+
+            };
+
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string> { this._applicationSettings.Secret }
             };
+            var command = new CreateUserCommand(createUserDTO);
+            int response = await _mediator.Send(command);
 
-            var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.idToken, new GoogleJsonWebSignature.ValidationSettings { Audience = new List<string> { this._applicationSettings.Secret } });
+            if (response == 0)
+            {
+                throw new NullReferenceException("Something went wrong!");
+            }
+            ////model.Id = response;
 
-            var user = UserList.Where(x => x.Username == payload.Name).FirstOrDefault();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration.GetValue<string>("Authentication:Jwt:Secret"));
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("userId", externalAuth.Username.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
 
-            return Ok(user);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            var commandSignIn = new SignInUserByUserNameQuery(externalAuth.Username, createUserDTO.Password);
+            var responseSignIn = await _mediator.Send(commandSignIn);
+
+            var tokenModel = new TokenResponse() { Token = responseSignIn.token, UserName = externalAuth.Username, Role = responseSignIn.Role };
+
+            // Return the user and token in the response
+            return Ok(tokenModel);
+
 
         }
         //[HttpPost]
@@ -173,7 +214,7 @@ namespace Assignment.Controllers
     {
         public string UserName { get; set; }
         public string Token { get; set; }
-        public string? Role { get; set; }
+        public string Role { get; set; }
     }
     [ExcludeFromCodeCoverage]
     public class AuthenticateRequest

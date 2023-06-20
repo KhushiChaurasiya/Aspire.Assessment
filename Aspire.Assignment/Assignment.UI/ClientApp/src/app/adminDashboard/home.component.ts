@@ -32,7 +32,6 @@ export class HomeComponent  implements AfterViewInit{
   constructor(private accountService: AccountService, private userService : UserService, private alertService : AlertService) {
     this.user = this.accountService.userValue;
 }
-
   ngAfterViewInit(): void {
     this.getAppDownloadedChartReport();
     this.getUserCountReport();
@@ -102,6 +101,8 @@ export class HomeComponent  implements AfterViewInit{
         ],
       },
     });
+    this.getUserCountReport();
+    this.getLogReport();
   }
 
   getAppDownloadedChartReport()

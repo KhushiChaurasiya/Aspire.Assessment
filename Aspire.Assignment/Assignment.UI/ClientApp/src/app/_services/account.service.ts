@@ -9,7 +9,7 @@ import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 import { GoogleLoginProvider } from "@abacritt/angularx-social-login";
 import { ExternalAuth } from '../_models/externalauth';
 // import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthResponseDto } from '../_models/AuthResponseDto';
+//import { AuthResponseDto } from '../_models/AuthResponseDto';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -25,12 +25,12 @@ export class AccountService {
     constructor(
         private router: Router,
         private http: HttpClient, private externalAuthService: SocialAuthService
-    ) {
+	) {
         this.externalAuthService.authState.subscribe((usr) => {
-            console.log(usr);
-            this.extAuthChangeSub.next(usr);
-            this.isExternalAuth = true;
-          })
+           console.log(usr);
+           this.extAuthChangeSub.next(usr);
+           this.isExternalAuth = true;
+         })
         this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
         this.user = this.userSubject.asObservable();
     }
@@ -73,7 +73,7 @@ export class AccountService {
   }
 
     
-  public externalLogin = (body: ExternalAuth) : Observable<any> => {
+  public externalLogin = (body: User) : Observable<any> => {
     return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
   }
 

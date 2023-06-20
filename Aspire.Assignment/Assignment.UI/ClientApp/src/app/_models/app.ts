@@ -5,5 +5,5 @@ export class App{
     price?: number;
     type?: string;
     files?:string;
-    addedOn?: string;
+    // addedOn?: string;
 }

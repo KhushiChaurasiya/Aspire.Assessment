@@ -10,7 +10,7 @@ const devDashModule =() => import('./developerDashboard/devdash.module').then(x=
 const routes: Routes = [
     // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
     { path: 'account', loadChildren: accountModule },
-    { path: 'userDash', loadChildren: userDashModule, canActivate: [AuthGuard] },
+    { path: 'userDash', loadChildren: userDashModule, canActivate: [AuthGuard]},
     { path: 'adminDash', loadChildren:adminDashModule, canActivate: [AuthGuard]},
     { path: 'devDash', loadChildren:devDashModule, canActivate: [AuthGuard] },
 

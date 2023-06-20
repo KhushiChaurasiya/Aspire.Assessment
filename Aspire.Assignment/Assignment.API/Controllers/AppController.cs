@@ -172,7 +172,7 @@ namespace Assignment.Controllers
         [Route("{id}")]
         [ProducesResponseType(typeof(AppDTO), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Developer")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -180,11 +180,6 @@ namespace Assignment.Controllers
                 _logger.LogInformation("delete method called");
                 var query = new DeleteAppByIdQuery(id);
                 var response = await _mediator.Send(query);
-                if(response == null)
-                {
-                    _logger.LogError("App Item {0} Deleted", id);
-                    throw new NullReferenceException("App id not found");
-                }
                 _logger.LogInformation("App Item {0} Deleted",id);
 
                 return Ok(response);

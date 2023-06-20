@@ -110,6 +110,7 @@ namespace Assignment.Core.Data.Repositories
             var FinalLogReport = new List<LogsDTO>();
             var fLogReport  = new List<Logs>();
             DateTime? dtDate = logwisedate;
+            FinalLogReport = null;
 
             var logreport = _context.Logs.Where(x=>x.Level == level).ToList();
 

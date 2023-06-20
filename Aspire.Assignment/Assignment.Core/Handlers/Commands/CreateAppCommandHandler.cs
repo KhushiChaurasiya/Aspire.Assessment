@@ -52,8 +52,10 @@ namespace Assignment.Providers.Handlers.Commands
 
             var folderName = Path.Combine("Resources");
             var path = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            if (System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
 
-            if(path == null)
+            if (path == null)
             {
                 throw new ArgumentNullException("Path not found!");
             }

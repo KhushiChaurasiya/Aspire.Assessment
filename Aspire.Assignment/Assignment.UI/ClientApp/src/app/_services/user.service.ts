@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { App } from "../_models/app";
@@ -32,6 +32,16 @@ export class UserService {
     public delete(id: number) {
         return this.http.delete<App[]>(`${environment.apiUrl}/api/App/${id}`);
     }
+
+    
+  //   public delete (id:number):Observable<number>{
+  //   let httpheaders=new HttpHeaders()
+  //   .set('Content-type','application/Json');
+  //   let options={
+  //     headers:httpheaders
+  //   };
+  //   return this.http.delete<number>(`${environment.apiUrl}/api/App/${id}`);
+  // }
 
     // public downloadFile(file: string) {
     //     return this.http.get(`${environment.apiUrl}/api/App/download/${file}`);

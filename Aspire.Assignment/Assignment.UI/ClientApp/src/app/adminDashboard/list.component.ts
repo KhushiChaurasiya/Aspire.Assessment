@@ -25,11 +25,12 @@ export class ListComponent implements OnInit {
 
   GetAllApps()
   {
-      this.userService.getAll()
-         // .pipe(first())
-          .subscribe(apps => this.apps = apps);
-
-          console.log(this.apps);
+    this.userService.getAll().subscribe((data) => {  
+        console.log(data);
+        this.apps = data;
+    }, error => console.error(error))  
+    // this.userService.getAll().subscribe(app => this.apps = app);
+    // console.log(this.apps);
   }
 
 }

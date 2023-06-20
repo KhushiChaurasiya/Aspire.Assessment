@@ -161,7 +161,7 @@ namespace Aspire.Assignment.UnitTest
 
             _mediator.Setup(x => x.Send(It.IsAny<UserDTO>(), new CancellationToken())).ReturnsAsync(user);
 
-            var controller = new AuthController(_mediator.Object, _configuration.Object, _passwordHasher.Object, _applicationSettings.Object, _logger.Object, _jwtHandler.Object, _userManager.Object);
+            var controller = new AuthController(_mediator.Object, _configuration.Object, _passwordHasher.Object, _applicationSettings.Object, _logger.Object);
             var result = await controller.GetById(It.IsAny<string>());
             Assert.IsType<OkObjectResult>(result);
             repository.Verify(x => x.User.GetByEmail(It.IsAny<string>()), Times.Exactly(0));

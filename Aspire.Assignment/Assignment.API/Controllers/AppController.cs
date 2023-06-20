@@ -262,7 +262,7 @@ namespace Assignment.Controllers
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         [Route("DownloadedReport")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DownloadedReport(DateTime? fromdate,DateTime? todate)
         {
             try

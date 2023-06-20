@@ -10,7 +10,7 @@ namespace Assignment.Contracts.DTO
     [ExcludeFromCodeCoverage]
     public class ExternalAuthDTO
     {
-        public string? Provider { get; set; }
-        public string? IdToken { get; set; }
+        public string? provider { get; set; }
+        public string? idToken { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+﻿import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
     userData : User[];
     private returnUrl: string;
 
-    
-
     constructor(
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -44,62 +42,63 @@ export class LoginComponent implements OnInit {
       this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
       this.authService.authState.subscribe((user: any) => {
-        console.log(user);
         this.user = user;
         this.externalLogin();
       })
 
 }
 
-// externalLogin = () => {
-//     const externalAuth: ExternalAuth = {
-//       provider: this.user.provider,
-//       idToken : this.user.idToken
-//     }
-//     this.validateExternalAuth(externalAuth);
-// }
-
-// private validateExternalAuth(externalAuth: ExternalAuth ) {
-//   this.accountService.externalLogin(externalAuth)
-//     .subscribe({
-//       next: (res) => {
-//           localStorage.setItem("token", res.token);
-//           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-//           this.router.navigateByUrl(returnUrl);
-//     },
-//       error: (err: HttpErrorResponse) => {
-//       }
-//     });
-// }
-
 externalLogin = () => {
   debugger;
-  this.accountService.signInWithGoogle();
-
-  this.accountService.extAuthChanged.subscribe( user => {
     const externalAuth: ExternalAuth = {
-      provider: user.provider,
-      idToken: user.idToken
+      provider: this.user.provider,
+      idToken : this.user.idToken
     }
-
     this.validateExternalAuth(externalAuth);
-  })
 }
 
-private validateExternalAuth(externalAuth: ExternalAuth) {
-  debugger;
-  this.accountService.externalLogin('api/Auth/ExternalLogin', externalAuth)
+private validateExternalAuth(externalAuth: ExternalAuth ) {
+  this.accountService.externalLogin(externalAuth)
     .subscribe({
       next: (res) => {
           localStorage.setItem("token", res.token);
-          this.accountService.sendAuthStateChangeNotification(res.isAuthSuccessful);
-          this.router.navigate([this.returnUrl]);
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigateByUrl(returnUrl);
     },
       error: (err: HttpErrorResponse) => {
-        this.accountService.signOutExternal();
       }
     });
 }
+
+// externalLogin = () => {
+//   debugger;
+//   this.accountService.signInWithGoogle();
+
+//   this.accountService.extAuthChanged.subscribe( user => {
+//     const externalAuth: ExternalAuth = {
+//       provider: user.provider,
+//       idToken: user.idToken
+//     }
+
+//     this.validateExternalAuth(externalAuth);
+//   })
+// }
+
+// private validateExternalAuth(externalAuth: ExternalAuth) {
+//   debugger;
+//   console.log("Hello ",externalAuth);
+//   this.accountService.externalLogin('api/Auth/ExternalLogin', externalAuth)
+//     .subscribe({
+//       next: (res) => {
+//           localStorage.setItem("token", res.token);
+//           this.accountService.sendAuthStateChangeNotification(res.isAuthSuccessful);
+//           this.router.navigate([this.returnUrl]);
+//     },
+//       error: (err: HttpErrorResponse) => {
+//         this.accountService.signOutExternal();
+//       }
+//     });
+// }
 
     // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
@@ -146,33 +145,33 @@ private validateExternalAuth(externalAuth: ExternalAuth) {
                 }
             });
     }
-    signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x: any) => console.log(x));
-  }
+  //   signInWithGoogle(): void {
+  //   this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((x: any) => console.log(x));
+  // }
 
-    signOut(): void {
-    this.authService.signOut();
-    } 
+    // signOut(): void {
+    // this.authService.signOut();
+    // } 
 
-    logInWithGoogle(platform: string): void {
-      platform = GoogleLoginProvider.PROVIDER_ID;
-      //Sign In and get user Info using authService that we just injected
-         this.authService.signIn(platform).then(
-      (response) => {
-      //Get all user details
-           console.log(platform + ' logged in user data is= ' , response);
-      //Take the details we need and store in an array
-           this.userData.push({
-            provider: response.provider,
-             firstname: response.firstName,
-             lastname: response.lastName,
-             email: response.email
-           });
-       },
-       (error) => {
-         console.log(error);
-      }
-  )}
+  //   logInWithGoogle(platform: string): void {
+  //     platform = GoogleLoginProvider.PROVIDER_ID;
+  //     //Sign In and get user Info using authService that we just injected
+  //        this.authService.signIn(platform).then(
+  //     (response) => {
+  //     //Get all user details
+  //          console.log(platform + ' logged in user data is= ' , response);
+  //     //Take the details we need and store in an array
+  //          this.userData.push({
+  //           provider: response.provider,
+  //            firstname: response.firstName,
+  //            lastname: response.lastName,
+  //            email: response.email
+  //          });
+  //      },
+  //      (error) => {
+  //        console.log(error);
+  //     }
+  // )}
 
 
     authenticateUser(RoleData : any){

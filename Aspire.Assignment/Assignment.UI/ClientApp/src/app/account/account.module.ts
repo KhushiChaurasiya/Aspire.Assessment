@@ -17,8 +17,9 @@ import { SocialLoginModule } from '@abacritt/angularx-social-login';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AccountRoutingModule
+        AccountRoutingModule,
+        SocialLoginModule
         
-    ]
+    ],
 })
 export class AccountModule { }

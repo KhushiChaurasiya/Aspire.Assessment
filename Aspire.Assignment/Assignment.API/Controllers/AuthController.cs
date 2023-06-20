@@ -31,24 +31,24 @@ namespace Assignment.Controllers
         private readonly AppSettingsDTO _applicationSettings;
         private static List<User> UserList = new List<User>();
         private readonly ILogger<AuthController> _logger;
-        private readonly JwtHandler _jwtHandler;
-        private readonly UserManager<User> _userManager;
-
-        public AuthController(IMediator mediator, IConfiguration configuration, IPasswordHasher<User> passwordHasher, IOptions<AppSettingsDTO> _applicationSettings, ILogger<AuthController> logger, JwtHandler jwtHandler, UserManager<User> userManager)
+        //private readonly JwtHandler _jwtHandler;
+        //private readonly UserManager<User> _userManager;
+        // UserManager<User> userManager
+        public AuthController(IMediator mediator, IConfiguration configuration, IPasswordHasher<User> passwordHasher, IOptions<AppSettingsDTO> _applicationSettings, ILogger<AuthController> logger)
         {
             _mediator = mediator;
             _configuration = configuration;
             _passwordHasher = passwordHasher;
             this._applicationSettings = _applicationSettings.Value;
             _logger = logger;
-            _jwtHandler = jwtHandler;
-            _userManager = userManager;
+            //_jwtHandler = jwtHandler;
+            //_userManager = userManager;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<UserDTO>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get()
         {
             var query = new GetAllUserQuery();
@@ -105,64 +105,64 @@ namespace Assignment.Controllers
             }
         }
 
-        //[HttpPost]
-        //[ExcludeFromCodeCoverage]
-        //[Route("ExternalLogin")]
-        //[ProducesResponseType(typeof(ExternalAuthDTO), (int)HttpStatusCode.OK)]
-        //[ProducesErrorResponseType(typeof(BaseResponseDTO))]
-        //public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthDTO externalAuth)
-        //{
-        //    var settings = new GoogleJsonWebSignature.ValidationSettings()
-        //    {
-        //        Audience = new List<string> { this._applicationSettings.Secret }
-        //    };
-
-        //    var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
-
-        //    var user = UserList.Where(x => x.Username == payload.Name).FirstOrDefault();
-
-        //    return Ok(user);
-
-        //}
-
-        [HttpPost("ExternalLogin")]
+        [HttpPost]
+        [ExcludeFromCodeCoverage]
+        [Route("ExternalLogin")]
+        [ProducesResponseType(typeof(ExternalAuthDTO), (int)HttpStatusCode.OK)]
+        [ProducesErrorResponseType(typeof(BaseResponseDTO))]
         public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthDTO externalAuth)
         {
-            var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
-            if (payload == null)
-                return BadRequest("Invalid External Authentication.");
-
-            var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
-
-            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user == null)
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                user = await _userManager.FindByEmailAsync(payload.Email);
-                if (user == null)
-                {
-                    user = new User { Email = payload.Email, Username = payload.Email };
-                    await _userManager.CreateAsync(user);
+                Audience = new List<string> { this._applicationSettings.Secret }
+            };
 
-                    //prepare and send an email for the email confirmation
+            var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.idToken, new GoogleJsonWebSignature.ValidationSettings { Audience = new List<string> { this._applicationSettings.Secret } });
 
-                    await _userManager.AddToRoleAsync(user, "Viewer");
-                    await _userManager.AddLoginAsync(user, info);
-                }
-                else
-                {
-                    await _userManager.AddLoginAsync(user, info);
-                }
-            }
+            var user = UserList.Where(x => x.Username == payload.Name).FirstOrDefault();
 
-            if (user == null)
-                return BadRequest("Invalid External Authentication.");
+            return Ok(user);
 
-            //check for the Locked out account
-
-            var token = await _jwtHandler.GenerateToken(user);
-
-            return Ok(new TokenResponse { Token = token, UserName = "" });
         }
+        //[HttpPost]
+        //[Route("ExternalLogin")]
+        //public async Task<IActionResult> ExternalLogin([FromBody] ExternalAuthDTO externalAuth)
+        //{
+        //    var payload = await _jwtHandler.VerifyGoogleToken(externalAuth);
+        //    if (payload == null)
+        //        return BadRequest("Invalid External Authentication.");
+
+        //    var info = new UserLoginInfo(externalAuth.provider, payload.Subject, externalAuth.provider);
+
+        //    var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        //    if (user == null)
+        //    {
+        //        user = await _userManager.FindByEmailAsync(payload.Email);
+        //        if (user == null)
+        //        {
+        //            user = new User { Email = payload.Email, Username = payload.Email };
+        //            await _userManager.CreateAsync(user);
+
+        //            //prepare and send an email for the email confirmation
+
+        //            await _userManager.AddToRoleAsync(user, "Viewer");
+        //            await _userManager.AddLoginAsync(user, info);
+        //        }
+        //        else
+        //        {
+        //            await _userManager.AddLoginAsync(user, info);
+        //        }
+        //    }
+
+        //    if (user == null)
+        //        return BadRequest("Invalid External Authentication.");
+
+        //    //check for the Locked out account
+
+        //    var token = await _jwtHandler.GenerateToken(user);
+
+        //    return Ok(new TokenResponse { Token = token, UserName = "" });
+        //}
 
 
 

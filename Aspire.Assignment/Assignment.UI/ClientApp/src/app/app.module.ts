@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
   GoogleLoginProvider,
   FacebookLoginProvider
@@ -23,7 +23,6 @@ import { NgChartsModule } from "ng2-charts";
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        SocialLoginModule,
         HttpClientModule,
         AppRoutingModule,
         Ng2SearchPipeModule,

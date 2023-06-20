@@ -73,23 +73,26 @@ export class AccountService {
   }
 
     
-//   public externalLogin = (body: ExternalAuth) => {
-//     return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
-//   }
+  public externalLogin = (body: ExternalAuth) : Observable<any> => {
+    return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
+  }
 
-  public signInWithGoogle = ()=> {
+public signInWithGoogle = ()=> {
     this.externalAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   public signOutExternal = () => {
     this.externalAuthService.signOut();
   }
-  public externalLogin = (route: string, body: ExternalAuth) => {
-    return this.http.post<AuthResponseDto>(this.createCompleteRoute(route, environment.apiUrl), body);
-  }
+
+//   public externalLogin = (route: string, body: ExternalAuth) => {
+//     return this.http.post<AuthResponseDto>(this.createCompleteRoute(route, environment.apiUrl), body);
+//   }
+
   private createCompleteRoute = (route: string, envAddress: string) => {
     return `${envAddress}/${route}`;
   }
+
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
     this.authChangeSub.next(isAuthenticated);
   }

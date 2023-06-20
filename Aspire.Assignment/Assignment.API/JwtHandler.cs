@@ -49,7 +49,7 @@ namespace Assignment.API
                     Audience = new List<string>() { _goolgeSettings.GetSection("clientId").Value }
                 };
 
-                var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.IdToken, settings);
+                var payload = await GoogleJsonWebSignature.ValidateAsync(externalAuth.idToken, settings);
 
                 return payload;
             }

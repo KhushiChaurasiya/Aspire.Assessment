@@ -77,7 +77,7 @@ namespace Assignment
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Aspire Assignment App API", Description = "Aspire Assignment App  is a  solution, built to demonstrate the trainees to create the application", Version = "v1" });
             });
 
-            
+           //services.AddScoped<JwtHandler>();
 
         }
 

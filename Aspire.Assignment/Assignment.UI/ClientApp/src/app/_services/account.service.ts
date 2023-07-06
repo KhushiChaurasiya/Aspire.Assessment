@@ -73,7 +73,7 @@ export class AccountService {
   }
 
     
-  public externalLogin = (body: User) : Observable<any> => {
+  public externalLogin = (body: ExternalAuth) : Observable<any> => {
     return this.http.post<any>(`${environment.apiUrl}/api/Auth/ExternalLogin`, body);
   }
 

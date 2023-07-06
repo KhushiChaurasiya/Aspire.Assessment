@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { App } from '../_models/app';
 import { UserService } from '../_services/user.service';
+import { AlertService } from '../_services/alert.service';
 
 @Component({
   selector: 'app-list',
@@ -9,7 +10,7 @@ import { UserService } from '../_services/user.service';
 export class ListComponent implements OnInit {
   apps?: App[];
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private alertService : AlertService) {}
 
   ngOnInit() {
       this.GetAllApps();
@@ -19,18 +20,22 @@ export class ListComponent implements OnInit {
       if (ans) {  
           this.userService.delete(id).subscribe((data) => {  
               this.GetAllApps();
-          }, error => console.error(error))  
+          }, error => this.alertService.error(error))  
       }  
   }  
 
   GetAllApps()
   {
-    this.userService.getAll().subscribe((data) => {  
-        console.log(data);
+    this.userService.getAll()
+    .subscribe({
+      next:(data) => {
         this.apps = data;
-    }, error => console.error(error))  
-    // this.userService.getAll().subscribe(app => this.apps = app);
-    // console.log(this.apps);
+      },
+      error: (error: any) => {
+        this.alertService.error(error);
+      }
+    });
+    
   }
 
 }

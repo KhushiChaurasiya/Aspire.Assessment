@@ -58,7 +58,7 @@ namespace Assignment
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            services.AddDbContext<DatabaseContext>(options => options.UseSqlite(Configuration.GetConnectionString("ConnectionStrings")));
+            //services.AddDbContext<DatabaseContext>(options => options.UseSqlite(Configuration.GetConnectionString("ConnectionStrings")));
             services.AddControllers();
             services.AddCors(opt =>
             {

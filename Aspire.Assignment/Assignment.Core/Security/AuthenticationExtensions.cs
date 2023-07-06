@@ -72,8 +72,10 @@ namespace Assignment.Core.Security
             authenticationBuilder.AddCookie()
             .AddGoogle(options =>
             {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.ClientId = configurationSection["client_id"];
                 options.ClientSecret = configurationSection["client_secret"];
+                options.SaveTokens = true;
             });
 
         }

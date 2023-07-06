@@ -5,7 +5,7 @@
         <label class="form-label" for="name">Name</label>
         <input title="Name" type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
         <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            <div *ngIf="f.name.errors.required">Username is required</div>
+            <div *ngIf="f.name.errors.required">Name is required</div>
         </div>
     </div>
   
@@ -37,11 +37,13 @@
     </div>
     <div  class="form-outline mb-4">
         <label class="form-label" for="customFile">Upload a application</label>
-        <input title="Files" type="file" formControlName="files"  accept=".zip" class="form-control" (change)="onSelectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.files.errors }" />
+        <input title="Files" type="file" formControlName="files"  accept=".zip" class="form-control" placeholder="zip file" (change)="onSelectFile($event)" [ngClass]="{ 'is-invalid': submitted && f.files.errors }" />
         <div *ngIf="submitted && f.files.errors" class="invalid-feedback">
             <div *ngIf="f.files.errors.required">Files is required</div>
         </div>
-
+        <span style="color:red" *ngIf="(
+            form.get('files')!.hasError('pattern') &&
+            form.get('files')!.touched)">File is not valid.</span>
         {{fileName || "No file uploaded yet."}}
 
 

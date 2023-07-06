@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
       if (ans) {  
           this.userService.delete(id).subscribe((data) => {  
               this.GetAllApps();
-          }, error => console.error(error))  
+          }, error => this.alertService.error(error))  
       }  
   }  
 

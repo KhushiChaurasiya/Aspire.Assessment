@@ -65,16 +65,16 @@ externalLogin = () => {
       provider : this.user.provider,
       username : this.user.name
    }
-    this.validateExternalAuth(this.userData);
+    this.validateExternalAuth(externalAuth);
 }
 
-private validateExternalAuth(externalAuth: User ) {
+private validateExternalAuth(externalAuth: ExternalAuth ) {
   this.accountService.externalLogin(externalAuth)
     .subscribe({
       next: (res) => {
         debugger;
           localStorage.setItem("token", res.token);
-          this.Role = res.role;
+          this.Role = res.user.role;
           this.authenticateUser(this.Role);
           if(this.Role == "User")
           {

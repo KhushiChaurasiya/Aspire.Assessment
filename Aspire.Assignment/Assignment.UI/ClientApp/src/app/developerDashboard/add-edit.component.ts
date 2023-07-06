@@ -23,6 +23,7 @@ export class AddEditComponent implements OnInit {
   appDetails: any = [];
   fileName = '';
   numRegex = /^-?\d*[.,]?\d{0,2}$/;
+  filetype : string;
 
   constructor(
       private formBuilder: FormBuilder,
@@ -81,7 +82,11 @@ export class AddEditComponent implements OnInit {
       }
 
       this.submitting = true;
-
+      if(this.filetype != "application/x-zip-compressed")
+      {
+         this.alertService.error("Unsupported file format, upload only zip");
+         this.submitting = false;
+      }else{
         this.saveApp()
           .subscribe({
               next: () => {
@@ -93,13 +98,21 @@ export class AddEditComponent implements OnInit {
                   this.submitting = false;
               }
           })
+        }
   }
 
   onSelectFile(fileInput: any) {
-
+  this.fileName = "";
    this.selectedFile = fileInput.target.files[0];
       this.fileName = this.selectedFile.name;
-        this.form.get('files')!.setValue(this.selectedFile);
+        // this.form.get('files')!.setValue(this.selectedFile);
+        this.filetype = this.selectedFile.type;
+        if(this.filetype != "application/x-zip-compressed")
+        {
+          this.alertService.error("Unsupported file format, upload only zip");
+        }
+
+
     //   if(this.MaxSizeValidation(this.selectedFile.size) == true)
     //   {
     //     // return;
@@ -107,15 +120,19 @@ export class AddEditComponent implements OnInit {
   }
 
   private saveApp() {
+    debugger;
       const filedata = new FormData();
       if(this.id != 0 && this.id != undefined){
       filedata.append('id',this.id);
+      
+        // return false;
+        
       if(this.selectedFile == null && this.selectedFile == undefined && this.selectedFile == "")
       {
           filedata.append('filedetails', this.appDetails.files);
       }
       }else{
-      filedata.append('filesdetails', this.selectedFile , this.selectedFile.name);
+          filedata.append('filesdetails', this.selectedFile , this.selectedFile.name);
       }
       filedata.append('name',this.form.value.name);
       filedata.append('description',this.form.value.description);
@@ -125,7 +142,7 @@ export class AddEditComponent implements OnInit {
       return this.id
           ? this.userService.put(this.id, filedata)
           : this.userService.post(filedata);
-
+    
 
   }
   private MaxSizeValidation(size :number)
